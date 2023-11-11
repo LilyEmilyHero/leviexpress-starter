@@ -1,6 +1,7 @@
 import { JourneyPicker } from '../../components/JourneyPicker';
 import { JourneyDetail } from '../../components/JourneyDetail';
 import React, { useState } from 'react';
+import { SelectedSeat } from '../../components/SelectedSeat';
 
 export const HomePage = () => {
   const [journey, setJourney] = useState(null);
@@ -16,6 +17,7 @@ export const HomePage = () => {
         <>
           <div>Nalezeno spojení s id {journey.journeyId}</div>
           <JourneyDetail journey={journey} />
+          <SelectedSeat number={journey.autoSeat} />
         </>
       )}
     </main>
