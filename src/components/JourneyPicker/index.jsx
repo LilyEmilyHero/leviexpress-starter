@@ -75,7 +75,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
         `https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`,
       );
       const datas = await response.json();
-      console.log(datas.results);
+      onJourneyChange(datas.results);
     };
 
     fetchSubmit();
