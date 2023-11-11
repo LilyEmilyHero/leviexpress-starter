@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 
+//------------------------------
+//-----  KOMPONENTA DATA   -----
+//------------------------------
 export const DatesOptions = ({ dates }) => {
   return (
     <>
@@ -14,6 +17,9 @@ export const DatesOptions = ({ dates }) => {
   );
 };
 
+//------------------------------
+//-----  KOMPONENTA CITY   -----
+//------------------------------
 export const CityOption = ({ cities }) => {
   return (
     <>
@@ -27,6 +33,9 @@ export const CityOption = ({ cities }) => {
   );
 };
 
+//------------------------------
+//-- KOMPONENTA NA VYHLEDÁVÁNÍ -
+//------------------------------
 export const JourneyPicker = ({ onJourneyChange }) => {
   const [fromCity, setFromCity] = useState('');
   const [toCity, setToCity] = useState('');
@@ -55,14 +64,29 @@ export const JourneyPicker = ({ onJourneyChange }) => {
     fetchDate();
   }, []);
 
+  //------------------------------
+  //----- TLAČÍTKO FORMULÁŘE -----
+  //------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Odesílám formulář s cestou');
 
-    console.log(fromCity);
-    console.log(toCity);
-    console.log(date);
+    const fetchSubmit = async () => {
+      const response = await fetch(
+        `https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`,
+      );
+      const datas = await response.json();
+      console.log(datas.results);
+    };
+
+    fetchSubmit();
   };
+
+  //----------- DISABLE NA SUBMIT -----------
+  const isDisabled = !fromCity || !toCity || !date;
+
+  //------------------------------
+  //----------- RETURN -----------
+  //------------------------------
 
   return (
     <div className="journey-picker container">
@@ -98,7 +122,12 @@ export const JourneyPicker = ({ onJourneyChange }) => {
             </select>
           </label>
           <div className="journey-picker__controls">
-            <button className="btn" type="submit" onClick={handleSubmit}>
+            <button
+              className="btn"
+              type="submit"
+              onClick={handleSubmit}
+              disabled={isDisabled}
+            >
               Vyhledat spoj
             </button>
           </div>
